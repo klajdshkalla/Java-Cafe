@@ -24,7 +24,7 @@ function addToOrder(name, price) {
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        orderItems.push({name, price, quantity: 1});
+        orderItems.push({ name, price, quantity: 1 });
     }
     updateOrderList();
 }
@@ -38,18 +38,23 @@ function updateOrderList() {
     const orderList = document.getElementById('orderList');
     const totalAmount = document.getElementById('totalAmount');
     orderList.innerHTML = '';
-
     let total = 0;
 
     orderItems.forEach((item, index) => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'order-item';
         itemDiv.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center">
-                <div>${item.name} - ${item.price.toFixed(2)} ALL (${item.quantity})</div>
-                <button onclick="removeFromOrder(${index})" class="btn btn-danger btn-sm">Remove</button>
-            </div>
-        `;
+                    <div class="flex justify-between items-center">
+                        <div>
+                            ${item.name} -
+                            <span class="text-blue-400 font-semibold">${item.price.toFixed(2)} ALL</span>
+                            <span class="bg-black-700 text-white px-2 py-1 rounded ml-2">${item.quantity}</span>
+                        </div>
+                        <button onclick="removeFromOrder(${index})" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded transition duration-300">
+                            Remove
+                        </button>
+                    </div>
+                `;
         orderList.appendChild(itemDiv);
         total += item.price * item.quantity;
     });
@@ -62,6 +67,5 @@ function updateOrderList() {
         price: item.price,
         quantity: item.quantity
     }));
-
     document.getElementById('orderItems').value = JSON.stringify(formattedOrderItems);
 }

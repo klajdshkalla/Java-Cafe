@@ -3,51 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Invoices</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/dark-theme.css" rel="stylesheet">
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #1f2937; /* Dark background */
+            color: #f1f1f1; /* Light text */
+        }
+        .nav-link {
+            color: #f1f1f1;
+        }
+        .nav-link:hover {
+            color: #ddd;
+        }
+    </style>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="#">JavaCafe</a>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/waiter/dashboard">Home</a>
-            </li>
+<body class="bg-gray-900 text-white">
+
+<!-- Navbar -->
+<nav class="w-full bg-gray-800 p-4 fixed top-0 z-10">
+    <div class="container mx-auto flex justify-between items-center">
+        <a href="#" class="text-xl font-bold">JavaCafe</a>
+        <ul class="flex space-x-4">
+            <li><a href="/waiter/dashboard" class="hover:text-gray-300">Home</a></li>
         </ul>
     </div>
 </nav>
-<div class="container mt-5">
-    <h1 class="mb-4">Invoices</h1>
-    <table class="table table-striped table-dark">
+
+<!-- Main Content -->
+<div class="container mx-auto mt-20 px-4">
+    <h1 class="text-3xl font-bold mb-6">Invoices</h1>
+
+    <!-- Table -->
+    <table class="w-full text-left bg-gray-800 rounded-lg shadow-lg overflow-hidden">
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>Timestamp</th>
-            <th>Quantity</th>
-            <th>Products</th> <!-- Updated to "Products" (plural) -->
-            <th>Actions</th> <!-- Removed "Waiter" column -->
+        <tr class="bg-gray-700">
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Timestamp</th>
+            <th class="px-4 py-2">Quantity</th>
+            <th class="px-4 py-2">Products</th>
+            <th class="px-4 py-2">Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="invoice : ${invoices}">
-            <td th:text="${invoice.id}"></td>
-            <td th:text="${invoice.timestamp}"></td>
-            <td th:text="${invoice.quantity != null} ? ${invoice.quantity} : 'N/A'"></td>
-            <td>
+        <tr th:each="invoice : ${invoices}" class="border-b border-gray-700">
+            <td class="px-4 py-2" th:text="${invoice.id}"></td>
+            <td class="px-4 py-2" th:text="${invoice.timestamp}"></td>
+            <td class="px-4 py-2" th:text="${invoice.quantity != null} ? ${invoice.quantity} : 'N/A'"></td>
+            <td class="px-4 py-2">
                 <!-- Iterate over the products list -->
-                <ul>
+                <ul class="list-disc pl-4">
                     <li th:each="product : ${invoice.products}" th:text="${product.name}"></li>
                 </ul>
             </td>
-            <td>
-                <a th:href="@{/invoices/view/{id}(id=${invoice.id})}" class="btn btn-primary">View</a>
-                <a th:href="@{/invoices/delete/{id}(id=${invoice.id})}" class="btn btn-danger">Delete</a>
+            <td class="px-4 py-2 space-x-2">
+                <a th:href="@{/invoices/view/{id}(id=${invoice.id})}"
+                   class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-3 py-1 rounded transition duration-300">
+                    View
+                </a>
+                <a th:href="@{/invoices/delete/{id}(id=${invoice.id})}"
+                   class="bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded transition duration-300">
+                    Delete
+                </a>
             </td>
         </tr>
         </tbody>
     </table>
-    <a href="/waiter/dashboard" class="btn btn-secondary">Back</a>
+
+    <!-- Back Button -->
+    <div class="mt-6 flex justify-start">
+        <a href="/waiter/dashboard"
+           class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded transition duration-300">
+            Back
+        </a>
+    </div>
 </div>
+
 </body>
 </html>

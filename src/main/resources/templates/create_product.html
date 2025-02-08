@@ -3,28 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Product</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #1f2937; /* Dark background */
+            color: #f1f1f1; /* Light text */
+        }
+        .nav-link {
+            color: #f1f1f1;
+        }
+        .nav-link:hover {
+            color: #ddd;
+        }
+    </style>
 </head>
-<body>
-<div class="container mt-5">
-    <h1 class="mb-4">Create Product</h1>
-    <form th:action="@{/admin/products}" th:object="${product}" method="post">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+<body class="bg-gray-900 text-white">
+
+<!-- Navbar -->
+<nav class="bg-gray-800 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <a href="#" class="text-xl font-bold">JavaCafe</a>
+        <ul class="flex space-x-4">
+            <li><a href="/admin/products" class="hover:text-gray-300">Products</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mx-auto mt-8 px-4">
+    <h1 class="text-3xl font-bold mb-6">Create Product</h1>
+
+    <!-- Form -->
+    <form th:action="@{/admin/products}" th:object="${product}" method="post" class="space-y-4">
+        <!-- Name Field -->
+        <div>
+            <label for="name" class="block text-sm font-medium">Name</label>
+            <input type="text" id="name" th:field="*{name}" required
+                   class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-        <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" step="0.01" class="form-control" id="price" th:field="*{price}" required>
+
+        <!-- Price Field -->
+        <div>
+            <label for="price" class="block text-sm font-medium">Price</label>
+            <input type="number" step="0.01" id="price" th:field="*{price}" required
+                   class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
-        <div class="form-group">
-            <label for="category">Category</label>
-            <select class="form-control" id="category" th:field="*{category}" required>
-                <option th:each="category : ${T(com.example.javacafe.enums.Category).values()}" th:text="${category.name()}" th:value="${category}"></option>
+
+        <!-- Category Field -->
+        <div>
+            <label for="category" class="block text-sm font-medium">Category</label>
+            <select id="category" th:field="*{category}" required
+                    class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option th:each="category : ${T(com.example.javacafe.enums.Category).values()}"
+                        th:text="${category.name()}" th:value="${category}"></option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <!-- Submit Button -->
+        <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
+            Add
+        </button>
     </form>
 </div>
+
 </body>
 </html>

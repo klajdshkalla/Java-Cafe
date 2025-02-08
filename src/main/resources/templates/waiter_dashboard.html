@@ -3,51 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Waiter Dashboard</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/dark-theme.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
+            background-color: #1f2937; /* Dark background */
+            color: #f1f1f1; /* Light text */
+        }
+        .nav-link {
             color: #f1f1f1;
         }
-        .card {
-            cursor: pointer;
-            color: #f1f1f1;
-        }
-        .navbar a.nav-link {
-            color: #f1f1f1;
-        }
-        .navbar a.nav-link:hover {
+        .nav-link:hover {
             color: #ddd;
         }
     </style>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="#">JavaCafe</a>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Logout</a>
-            </li>
+<body class="bg-gray-900 text-white">
+
+<!-- Navbar -->
+<nav class="bg-gray-800 p-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <a href="#" class="text-xl font-bold">JavaCafe</a>
+        <ul class="flex space-x-4">
+            <li><a href="/login" class="hover:text-gray-300">Logout</a></li>
         </ul>
     </div>
 </nav>
-<div class="container mt-5">
-    <h1 class="display-4">Waiter Dashboard</h1>
-    <div class="card-deck mt-4">
-        <div class="card text-white bg-success mb-3" onclick="location.href='/orders/new'">
-            <div class="card-body">
-                <h5 class="card-title">Create Order</h5>
-                <p class="card-text">Select products and create a new order.</p>
-            </div>
+
+<!-- Main Content -->
+<div class="container mx-auto mt-8 px-4 flex flex-col items-center">
+    <h1 class="text-4xl font-bold mb-6 text-center">Waiter Dashboard</h1>
+
+    <!-- Card Container -->
+    <div class="space-y-6 w-full max-w-md">
+        <!-- Create Order Card -->
+        <div class="bg-green-600 p-6 rounded-lg shadow-lg cursor-pointer hover:bg-green-700 transition duration-300 text-center" onclick="location.href='/orders/new'">
+            <h5 class="text-xl font-semibold mb-2">Create Order</h5>
+            <p class="text-gray-200">Select products and create a new order.</p>
         </div>
-        <div class="card text-white bg-info mb-3" onclick="location.href='/invoices'">
-            <div class="card-body">
-                <h5 class="card-title">View Invoices</h5>
-                <p class="card-text">View generated invoices.</p>
-            </div>
-        </div>
+
+<!--        &lt;!&ndash; View Invoices Card &ndash;&gt;-->
+<!--        <div class="bg-blue-600 p-6 rounded-lg shadow-lg cursor-pointer hover:bg-blue-700 transition duration-300 text-center" onclick="location.href='/invoices'">-->
+<!--            <h5 class="text-xl font-semibold mb-2">View Invoices</h5>-->
+<!--            <p class="text-gray-200">View generated invoices.</p>-->
+<!--        </div>-->
     </div>
 </div>
+
 </body>
 </html>

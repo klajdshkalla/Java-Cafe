@@ -3,52 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <title>Invoice Detail</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/dark-theme.css" rel="stylesheet">
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #1f2937; /* Dark background */
+            color: #f1f1f1; /* Light text */
+        }
+        .nav-link {
+            color: #f1f1f1;
+        }
+        .nav-link:hover {
+            color: #ddd;
+        }
+    </style>
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="#">JavaCafe</a>
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/dashboard">Home</a>
-            </li>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+
+<!-- Navbar -->
+<nav class="w-full bg-gray-800 p-4 fixed top-0 z-10">
+    <div class="container mx-auto flex justify-between items-center">
+        <!-- Left Side -->
+        <a href="#" class="text-xl font-bold">JavaCafe</a>
+        <!-- Centered Title -->
+        <h1 class="text-lg font-semibold text-white">Invoice Detail</h1>
+        <!-- Right Side -->
+        <ul class="flex space-x-4">
+            <li><a href="/waiter/dashboard" class="hover:text-gray-300">Home</a></li>
         </ul>
     </div>
 </nav>
-<div class="container mt-5">
-    <h1 class="mb-4">Invoice Detail</h1>
-    <table class="table table-striped table-dark">
-        <thead>
-        <tr>
-            <th>Attribute</th>
-            <th>Value</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>ID</td>
-            <td th:text="${invoice.id}"></td>
-        </tr>
-        <tr>
-            <td>Timestamp</td>
-            <td th:text="${invoice.timestamp}"></td>
-        </tr>
-        <tr>
-            <td>Total Amount</td>
-            <td th:text="${invoice.totalAmount}"></td>
-        </tr>
-        <tr>
-            <td colspan="2">Products</td>
-        </tr>
-        <tr th:each="orderItem : ${invoice.products}">
-            <td th:text="${orderItem.name}"></td>
-            <td th:text="${orderItem.quantity}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <a href="/orders/new" class="btn btn-secondary">Back to Orders</a>
+
+<!-- Centered Content -->
+<div class="max-w-2xl w-full bg-gray-800 p-8 rounded-lg shadow-lg mt-20">
+    <!-- Invoice ID -->
+    <div class="mb-4">
+        <strong class="text-gray-300">Invoice ID:</strong>
+        <span th:text="${invoice.id}" class="ml-2"></span>
+    </div>
+
+    <!-- Products Section -->
+    <div class="mb-6">
+        <table class="w-full text-left">
+            <thead>
+            <tr class="bg-gray-700">
+                <th class="px-4 py-2">Product</th>
+                <th class="px-4 py-2">Price</th>
+                <th class="px-4 py-2">Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="orderItem : ${invoice.products}" class="border-b border-gray-700">
+                <td class="px-4 py-2" th:text="${orderItem.name}"></td>
+                <td class="px-4 py-2" th:text="${orderItem.price} + ' ALL'"></td>
+                <td class="px-4 py-2" th:text="${orderItem.quantity}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Total Amount and Date/Time -->
+    <div class="flex justify-between items-center space-x-4">
+        <!-- Non-Clickable Total Amount -->
+        <div class="bg-green-600 text-white font-bold px-4 py-2 rounded">
+            Total: <span th:text="${invoice.totalAmount} + ' ALL'" class="ml-2"></span>
+        </div>
+        <!-- Date and Time (No Label) -->
+        <div class="font-bold">
+            <span th:text="${#temporals.format(invoice.timestamp, 'yyyy-MM-dd HH:mm')}" class="ml-2"></span>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-6 flex justify-center">
+        <a href="/orders/new" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded transition duration-300">
+            Back to Orders
+        </a>
+    </div>
 </div>
+
 </body>
 </html>
