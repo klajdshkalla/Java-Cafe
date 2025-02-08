@@ -18,10 +18,9 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white">
-
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
 <!-- Navbar -->
-<nav class="bg-gray-800 p-4">
+<nav class="w-full bg-gray-800 p-4 fixed top-0 z-10">
     <div class="container mx-auto flex justify-between items-center">
         <a href="#" class="text-xl font-bold">JavaCafe</a>
         <ul class="flex space-x-4">
@@ -31,24 +30,23 @@
 </nav>
 
 <!-- Main Content -->
-<div class="container mx-auto mt-8 px-4">
-    <h1 class="text-4xl font-bold mb-6">Admin Dashboard</h1>
-
+<div class="flex flex-col items-center justify-center min-h-screen transform scale-125">
+    <h1 class="text-5xl font-bold mb-8 text-center">Admin Dashboard</h1>
     <!-- Card Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="flex flex-col items-center gap-8 w-full max-w-lg">
         <!-- Manage Products Card -->
-        <div class="bg-green-600 p-6 rounded-lg shadow-lg cursor-pointer hover:bg-green-700 transition duration-300" onclick="location.href='/admin/products'">
-            <h5 class="text-xl font-semibold mb-2">Manage Products</h5>
-            <p class="text-gray-200">Add, edit, and delete products.</p>
-        </div>
-
+        <a href="/admin/products"
+           class="bg-green-600 p-8 rounded-lg shadow-lg block hover:bg-green-700 transition duration-300 w-full text-center cursor-pointer">
+            <h5 class="text-2xl font-semibold mb-4">Manage Products</h5>
+            <p class="text-lg text-gray-200">Add, edit, and delete products.</p>
+        </a>
         <!-- View Invoices Card -->
-        <div class="bg-yellow-600 p-6 rounded-lg shadow-lg cursor-pointer hover:bg-yellow-700 transition duration-300" onclick="location.href='/invoices'">
-            <h5 class="text-xl font-semibold mb-2">View Invoices</h5>
-            <p class="text-gray-200">View and manage invoices.</p>
-        </div>
+        <a href="/invoices"
+           class="bg-yellow-600 p-8 rounded-lg shadow-lg block hover:bg-yellow-700 transition duration-300 w-full text-center cursor-pointer">
+            <h5 class="text-2xl font-semibold mb-4">View Invoices</h5>
+            <p class="text-lg text-gray-200">View and manage invoices.</p>
+        </a>
     </div>
 </div>
-
 </body>
 </html>
