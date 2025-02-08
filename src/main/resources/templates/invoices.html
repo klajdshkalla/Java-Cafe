@@ -19,43 +19,43 @@
     </style>
 </head>
 <body class="bg-gray-900 text-white">
-
 <!-- Navbar -->
 <nav class="w-full bg-gray-800 p-4 fixed top-0 z-10">
     <div class="container mx-auto flex justify-between items-center">
+        <!-- Left Side -->
         <a href="#" class="text-xl font-bold">JavaCafe</a>
+        <!-- Centered Title -->
+        <h1 class="text-lg font-semibold text-white">Invoices</h1>
+        <!-- Right Side -->
         <ul class="flex space-x-4">
-            <li><a href="/waiter/dashboard" class="hover:text-gray-300">Home</a></li>
+            <li><a href="/admin/dashboard" class="hover:text-gray-300">Home</a></li>
         </ul>
     </div>
 </nav>
-
 <!-- Main Content -->
 <div class="container mx-auto mt-20 px-4">
-    <h1 class="text-3xl font-bold mb-6">Invoices</h1>
-
     <!-- Table -->
     <table class="w-full text-left bg-gray-800 rounded-lg shadow-lg overflow-hidden">
         <thead>
         <tr class="bg-gray-700">
             <th class="px-4 py-2">ID</th>
-            <th class="px-4 py-2">Timestamp</th>
-            <th class="px-4 py-2">Quantity</th>
+            <th class="px-4 py-2">Date & Time</th>
             <th class="px-4 py-2">Products</th>
+            <th class="px-4 py-2">Total Amount</th> <!-- New Column for Total Price -->
             <th class="px-4 py-2">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="invoice : ${invoices}" class="border-b border-gray-700">
             <td class="px-4 py-2" th:text="${invoice.id}"></td>
-            <td class="px-4 py-2" th:text="${invoice.timestamp}"></td>
-            <td class="px-4 py-2" th:text="${invoice.quantity != null} ? ${invoice.quantity} : 'N/A'"></td>
+            <td class="px-4 py-2" th:text="${#temporals.format(invoice.timestamp, 'yyyy-MM-dd HH:mm')}"></td>
             <td class="px-4 py-2">
                 <!-- Iterate over the products list -->
                 <ul class="list-disc pl-4">
                     <li th:each="product : ${invoice.products}" th:text="${product.name}"></li>
                 </ul>
             </td>
+            <td class="px-4 py-2 font-bold" th:text="${invoice.totalAmount} + ' ALL'"></td> <!-- Display Total Price -->
             <td class="px-4 py-2 space-x-2">
                 <a th:href="@{/invoices/view/{id}(id=${invoice.id})}"
                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-3 py-1 rounded transition duration-300">
@@ -69,15 +69,13 @@
         </tr>
         </tbody>
     </table>
-
     <!-- Back Button -->
     <div class="mt-6 flex justify-start">
-        <a href="/waiter/dashboard"
+        <a href="/admin/dashboard"
            class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded transition duration-300">
             Back
         </a>
     </div>
 </div>
-
 </body>
 </html>
