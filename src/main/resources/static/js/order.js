@@ -24,7 +24,7 @@ function addToOrder(name, price) {
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        orderItems.push({ name, price, quantity: 1 });
+        orderItems.push({name, price, quantity: 1});
     }
     updateOrderList();
 }
@@ -46,7 +46,7 @@ function updateOrderList() {
         itemDiv.className = 'order-item';
         itemDiv.innerHTML = `
             <div class="d-flex justify-content-between align-items-center">
-                <div>${item.name} - $${item.price.toFixed(2)} (x${item.quantity})</div>
+                <div>${item.name} - ${item.price.toFixed(2)} ALL (${item.quantity})</div>
                 <button onclick="removeFromOrder(${index})" class="btn btn-danger btn-sm">Remove</button>
             </div>
         `;

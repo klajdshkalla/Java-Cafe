@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/admin/dashboard">Home</a>
+                <a class="nav-link" href="/waiter/dashboard">Home</a>
             </li>
         </ul>
     </div>
@@ -25,18 +25,21 @@
             <th>ID</th>
             <th>Timestamp</th>
             <th>Quantity</th>
-            <th>Product</th>
-            <th>Waiter</th>
-            <th>Actions</th>
+            <th>Products</th> <!-- Updated to "Products" (plural) -->
+            <th>Actions</th> <!-- Removed "Waiter" column -->
         </tr>
         </thead>
         <tbody>
         <tr th:each="invoice : ${invoices}">
             <td th:text="${invoice.id}"></td>
             <td th:text="${invoice.timestamp}"></td>
-            <td th:text="${invoice.quantity}"></td>
-            <td th:text="${invoice.product.name}"></td>
-            <td th:text="${invoice.waiterName}"></td>
+            <td th:text="${invoice.quantity != null} ? ${invoice.quantity} : 'N/A'"></td>
+            <td>
+                <!-- Iterate over the products list -->
+                <ul>
+                    <li th:each="product : ${invoice.products}" th:text="${product.name}"></li>
+                </ul>
+            </td>
             <td>
                 <a th:href="@{/invoices/view/{id}(id=${invoice.id})}" class="btn btn-primary">View</a>
                 <a th:href="@{/invoices/delete/{id}(id=${invoice.id})}" class="btn btn-danger">Delete</a>
@@ -44,7 +47,7 @@
         </tr>
         </tbody>
     </table>
-    <a href="/admin/dashboard" class="btn btn-secondary">Back</a>
+    <a href="/waiter/dashboard" class="btn btn-secondary">Back</a>
 </div>
 </body>
 </html>

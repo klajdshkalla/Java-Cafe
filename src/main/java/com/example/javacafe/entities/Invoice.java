@@ -19,7 +19,7 @@ public class Invoice {
     @ElementCollection
     private List<OrderItem> products;
 
-    private int quantity;
+    private Integer quantity; // Change from int to Integer
 
     public void setProducts(List<OrderItem> orderItems) {
         this.products = orderItems;
