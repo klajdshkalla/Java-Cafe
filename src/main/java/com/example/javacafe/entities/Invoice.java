@@ -1,0 +1,32 @@
+package com.example.javacafe.entities;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Data
+public class Invoice {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private LocalDateTime timestamp;
+    private double totalAmount;
+
+    @ElementCollection
+    private List<OrderItem> products;
+
+    private int quantity;
+
+    public void setProducts(List<OrderItem> orderItems) {
+        this.products = orderItems;
+        this.totalAmount = calculateTotalAmount(orderItems);
+    }
+
+    private double calculateTotalAmount(List<OrderItem> orderItems) {
+        return orderItems.stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
+    }
+}

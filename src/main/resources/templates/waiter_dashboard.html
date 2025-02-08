@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Waiter Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dark-theme.css" rel="stylesheet">
+    <style>
+        body {
+            color: #f1f1f1;
+        }
+        .card {
+            cursor: pointer;
+            color: #f1f1f1;
+        }
+        .navbar a.nav-link {
+            color: #f1f1f1;
+        }
+        .navbar a.nav-link:hover {
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">JavaCafe</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-5">
+    <h1 class="display-4">Waiter Dashboard</h1>
+    <div class="card-deck mt-4">
+        <div class="card text-white bg-success mb-3" onclick="location.href='/orders/new'">
+            <div class="card-body">
+                <h5 class="card-title">Create Order</h5>
+                <p class="card-text">Select products and create a new order.</p>
+            </div>
+        </div>
+        <div class="card text-white bg-info mb-3" onclick="location.href='/invoices'">
+            <div class="card-body">
+                <h5 class="card-title">View Invoices</h5>
+                <p class="card-text">View generated invoices.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
