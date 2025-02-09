@@ -37,6 +37,7 @@ public class ProductController {
     public String createProduct(@ModelAttribute("product") @Valid Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("categories", Category.values()); // Ensure categories are available on errors
+            model.addAttribute("errorMessage", "Please correct the errors in the form.");
             return "create_product";
         }
         productService.save(product);

@@ -3,6 +3,7 @@ package com.example.javacafe.services;
 import com.example.javacafe.entities.Invoice;
 import com.example.javacafe.repositories.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
+    @Cacheable("invoices")
     public List<Invoice> findAll() {
         return invoiceRepository.findAll();
     }

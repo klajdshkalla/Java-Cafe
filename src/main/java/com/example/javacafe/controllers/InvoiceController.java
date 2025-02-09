@@ -31,6 +31,7 @@ public class InvoiceController {
             model.addAttribute("invoice", invoice.get());
             return "invoice_detail";
         } else {
+            model.addAttribute("errorMessage", "Invoice not found");
             return "redirect:/invoices";
         }
     }
