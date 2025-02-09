@@ -7,6 +7,6 @@ import lombok.Data;
 @Embeddable
 public class OrderItem {
     private String name;
-    private Long price;
+    private double price;
     private int quantity;
 }

@@ -58,8 +58,10 @@ function displayProductsByCategory(category) {
                     <div class="flex justify-between items-center">
                         <div>
                             <span class="font-bold">${product.name}</span>
-                            <span> - $</span>
+                            <span> - ALL</span>
                             <span>${product.price.toFixed(2)}</span>
+                                                        <span> - ALL</span>
+
                         </div>
                         <button class="add-to-order bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition duration-300"
                                 data-product-name="${product.name}"

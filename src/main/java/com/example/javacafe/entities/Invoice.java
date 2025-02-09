@@ -14,7 +14,7 @@ public class Invoice {
     private Long id;
 
     private LocalDateTime timestamp;
-    private Long totalAmount;
+    private double totalAmount;
 
     @ElementCollection
     private List<OrderItem> products;
@@ -23,7 +23,7 @@ public class Invoice {
 
     public void setProducts(List<OrderItem> orderItems) {
         this.products = orderItems;
-        this.totalAmount = (long) calculateTotalAmount(orderItems);
+        this.totalAmount = calculateTotalAmount(orderItems);
     }
 
     private double calculateTotalAmount(List<OrderItem> orderItems) {
