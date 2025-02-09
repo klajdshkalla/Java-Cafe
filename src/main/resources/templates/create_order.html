@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Create Order</title>
@@ -16,7 +16,6 @@
         .nav-link:hover {
             color: #ddd;
         }
-
         /* Custom Styles for Order List */
         .order-item {
             display: flex;
@@ -33,19 +32,20 @@
         .order-item .item-price {
             color: #6cb2eb; /* Light blue for price */
         }
+        /* Hide products section initially */
+        #productSection {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
-
 <!-- Navbar -->
 <nav class="w-full bg-gray-800 p-4 fixed top-0 z-10">
     <div class="container mx-auto flex justify-between items-center">
         <!-- Left Side -->
         <a href="#" class="text-xl font-bold">JavaCafe</a>
-
         <!-- Centered Title -->
         <h1 class="text-lg font-semibold text-white">Create Order</h1>
-
         <!-- Right Side -->
         <ul class="flex space-x-4">
             <li><a href="/waiter/dashboard" class="hover:text-gray-300">Home</a></li>
@@ -54,57 +54,37 @@
 </nav>
 
 <!-- Main Content -->
-<div class="container mx-auto mt-20 px-4 w-full max-w-3xl">
-    <!-- Product List -->
-    <div id="productList" class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-center">Products</h2>
-        <table class="w-full bg-gray-800 text-white border-collapse">
-            <thead>
-            <tr class="bg-gray-700">
-                <th class="px-4 py-2">Name</th>
-                <th class="px-4 py-2">Price</th>
-                <th class="px-4 py-2">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="product : ${products}" class="border-b border-gray-700">
-                <td class="px-4 py-2" th:text="${product.name}"></td>
-                <td class="px-4 py-2" th:text="${product.price}"></td>
-                <td class="px-4 py-2">
-                    <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition duration-300 add-to-order"
-                            th:text="'Add to Order'"
-                            th:attr="data-product-name=${product.name}, data-product-price=${product.price}">
-                        Add
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+<div class="container mx-auto mt-20 px-4 w-full max-w-7xl grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Categories Section -->
+    <div class="col-span-1">
+        <h2 class="text-xl font-semibold mb-4 text-center">Categories</h2>
+        <div id="categories" class="space-y-4">
+            <!-- Categories will be dynamically loaded here -->
+        </div>
     </div>
 
-    <!-- Order List -->
-    <div class="mt-8">
-        <h3 class="text-xl font-semibold mb-4 text-center">Order List</h3>
+    <!-- Products Section -->
+    <div id="productSection" class="col-span-1">
+        <h2 class="text-xl font-semibold mb-4 text-center">Products</h2>
+        <div id="productList" class="space-y-4">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Order List Section -->
+    <div id="orderSection" class="col-span-1 md:col-span-2">
+        <h2 class="text-xl font-semibold mb-4 text-center">Order List</h2>
         <div id="orderList" class="space-y-2"></div>
         <div class="flex justify-between items-center mt-4">
             <strong>Total: <span id="totalAmount">0.00</span> ALL</strong>
         </div>
-    </div>
-
-    <!-- Button Container -->
-    <div class="mt-6 flex justify-center space-x-4">
         <!-- Submit Order Form -->
-        <form th:action="@{/orders}" method="post">
+        <form th:action="@{/orders}" method="post" class="mt-6">
             <input type="hidden" id="orderItems" name="product">
-            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded transition duration-300">
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded transition duration-300 w-full">
                 Submit Order
             </button>
         </form>
-
-        <!-- Back Button -->
-        <a href="/waiter/dashboard" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded transition duration-300">
-            Back
-        </a>
     </div>
 </div>
 

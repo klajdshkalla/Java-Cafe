@@ -15,27 +15,33 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    // Fetch all products
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
-    }
-
-    public Product save(Product product) {
-        return productRepository.save(product);
-    }
-
-    public void deleteById(Long id) {
-        productRepository.deleteById(id);
-    }
-
+    // Fetch products by category
     public List<Product> findByCategory(Category category) {
         return productRepository.findByCategory(category);
     }
 
+    // Save a product
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+
+    // Find a product by ID
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
+    }
+
+    // Delete a product by ID
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
+    }
+
+    // Find a product by name
     public Product findByName(String name) {
-        return productRepository.findByName(name);
+        return productRepository.findByName(name); // Call the repository method
     }
 }
