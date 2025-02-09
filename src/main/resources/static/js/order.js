@@ -1,18 +1,17 @@
 let orderItems = [];
 
-// Define a mapping of categories to colors
-const categoryColors = {
-    HOT_DRINKS: 'bg-red-600 hover:bg-red-700',
-    SOFT_DRINKS: 'bg-blue-600 hover:bg-blue-700',
-    WINES: 'bg-purple-600 hover:bg-purple-700',
-    BEERS: 'bg-yellow-600 hover:bg-yellow-700',
-    MILKSHAKES: 'bg-green-600 hover:bg-green-700',
-    COCKTAILS: 'bg-pink-600 hover:bg-pink-700'
-};
-
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Document loaded, attaching event listeners.");
     loadCategories(); // Load categories dynamically
+
+    // Intercept form submission to validate the order
+    document.getElementById('submitOrderForm').addEventListener('submit', function (event) {
+        const orderItemsJson = document.getElementById('orderItems').value;
+        if (!orderItemsJson || orderItemsJson.length === 0) {
+            alert("Cannot submit an empty order.");
+            event.preventDefault(); // Prevent form submission
+        }
+    });
 });
 
 // Fetch categories from the backend
@@ -22,10 +21,9 @@ function loadCategories() {
         .then(categories => {
             const categoryContainer = document.getElementById('categories');
             categoryContainer.innerHTML = ''; // Clear previous categories
-
             categories.forEach(category => {
                 const button = document.createElement('button');
-                button.className = `category-btn text-white font-semibold px-4 py-2 rounded transition duration-300 w-full h-24 flex items-center justify-center text-lg ${getCategoryColor(category)}`;
+                button.className = `category-btn text-white font-semibold px-4 py-2 rounded transition duration-300 w-full h-24 flex items-center justify-center ${getCategoryColor(category)}`;
                 button.textContent = category.replace(/_/g, ' '); // Replace underscores with spaces for readability
                 button.setAttribute('data-category', category);
                 button.addEventListener('click', function () {
@@ -35,11 +33,6 @@ function loadCategories() {
             });
         })
         .catch(error => console.error('Error fetching categories:', error));
-}
-
-// Helper function to get the color for a category
-function getCategoryColor(category) {
-    return categoryColors[category] || 'bg-gray-600 hover:bg-gray-700'; // Default color if category is not found
 }
 
 // Display products based on the selected category
@@ -58,7 +51,6 @@ function displayProductsByCategory(category) {
         .then(filteredProducts => {
             const productList = document.getElementById('productList');
             productList.innerHTML = ''; // Clear previous products
-
             filteredProducts.forEach(product => {
                 const productDiv = document.createElement('div');
                 productDiv.className = 'product-item bg-gray-800 p-4 rounded-lg shadow-md';
@@ -66,8 +58,8 @@ function displayProductsByCategory(category) {
                     <div class="flex justify-between items-center">
                         <div>
                             <span class="font-bold">${product.name}</span>
+                            <span> - $</span>
                             <span>${product.price.toFixed(2)}</span>
-                            <span> - ALL</span>
                         </div>
                         <button class="add-to-order bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition duration-300"
                                 data-product-name="${product.name}"
@@ -78,7 +70,6 @@ function displayProductsByCategory(category) {
                 `;
                 productList.appendChild(productDiv);
             });
-
             attachAddToOrderListeners();
         })
         .catch(error => console.error('Error fetching products by category:', error));
@@ -124,27 +115,35 @@ function updateOrderList() {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'order-item';
         itemDiv.innerHTML = `
-        <div class="flex justify-between items-center">
-            <div>
-                ${item.name} -
-                <span class="text-blue-400 font-semibold">${item.price.toFixed(2)} ALL</span>
-                <span class="bg-blue-700 text-white px-2 py-1 rounded ml-2">${item.quantity}</span>
+            <div class="flex justify-between items-center">
+                <div>
+                    ${item.name} -
+                    <span class="text-blue-400 font-semibold">${item.price.toFixed(2)} ALL</span>
+                    <span class="bg-blue-700 text-white px-2 py-1 rounded ml-2">${item.quantity}</span>
+                </div>
+                <button onclick="removeFromOrder(${index})" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded transition duration-300 ml-4">
+                    Remove
+                </button>
             </div>
-            <button onclick="removeFromOrder(${index})" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition duration-300 ml-4">
-                Remove
-            </button>
-        </div>
-    `;
+        `;
         orderList.appendChild(itemDiv);
         total += item.price * item.quantity;
     });
 
     totalAmount.textContent = total.toFixed(2);
     // Format order items for submission
-    const formattedOrderItems = orderItems.map(item => ({
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity
-    }));
-    document.getElementById('orderItems').value = JSON.stringify(formattedOrderItems);
+    document.getElementById('orderItems').value = JSON.stringify(orderItems);
+}
+
+// Helper function to get the color for a category
+function getCategoryColor(category) {
+    const categoryColors = {
+        HOT_DRINKS: 'bg-red-600 hover:bg-red-700',
+        SOFT_DRINKS: 'bg-blue-600 hover:bg-blue-700',
+        WINES: 'bg-purple-600 hover:bg-purple-700',
+        BEERS: 'bg-yellow-600 hover:bg-yellow-700',
+        MILKSHAKES: 'bg-green-600 hover:bg-green-700',
+        COCKTAILS: 'bg-pink-600 hover:bg-pink-700'
+    };
+    return categoryColors[category] || 'bg-gray-600 hover:bg-gray-700'; // Default color if category is not found
 }
