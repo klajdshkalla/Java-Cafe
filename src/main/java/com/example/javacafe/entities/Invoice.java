@@ -14,16 +14,16 @@ public class Invoice {
     private Long id;
 
     private LocalDateTime timestamp;
-    private double totalAmount;
+    private Long totalAmount;
 
     @ElementCollection
     private List<OrderItem> products;
 
-    private Integer quantity; // Change from int to Integer
+    private Integer quantity;
 
     public void setProducts(List<OrderItem> orderItems) {
         this.products = orderItems;
-        this.totalAmount = calculateTotalAmount(orderItems);
+        this.totalAmount = (long) calculateTotalAmount(orderItems);
     }
 
     private double calculateTotalAmount(List<OrderItem> orderItems) {

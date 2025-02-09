@@ -6,5 +6,6 @@ public enum Category {
     WINES,
     BEERS,
     MILKSHAKES,
-    COCKTAILS
+    COCKTAILS,
+    OTHER
 }

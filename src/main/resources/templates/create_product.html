@@ -18,10 +18,9 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white">
-
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
 <!-- Navbar -->
-<nav class="bg-gray-800 p-4">
+<nav class="w-full bg-gray-800 p-4 fixed top-0 z-10">
     <div class="container mx-auto flex justify-between items-center">
         <a href="#" class="text-xl font-bold">JavaCafe</a>
         <ul class="flex space-x-4">
@@ -31,42 +30,39 @@
 </nav>
 
 <!-- Main Content -->
-<div class="container mx-auto mt-8 px-4">
-    <h1 class="text-3xl font-bold mb-6">Create Product</h1>
-
-    <!-- Form -->
-    <form th:action="@{/admin/products}" th:object="${product}" method="post" class="space-y-4">
-        <!-- Name Field -->
-        <div>
-            <label for="name" class="block text-sm font-medium">Name</label>
-            <input type="text" id="name" th:field="*{name}" required
-                   class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <!-- Price Field -->
-        <div>
-            <label for="price" class="block text-sm font-medium">Price</label>
-            <input type="number" step="0.01" id="price" th:field="*{price}" required
-                   class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-
-        <!-- Category Field -->
-        <div>
-            <label for="category" class="block text-sm font-medium">Category</label>
-            <select id="category" th:field="*{category}" required
-                    class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option th:each="category : ${T(com.example.javacafe.enums.Category).values()}"
-                        th:text="${category.name()}" th:value="${category}"></option>
-            </select>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
-            Add
-        </button>
-    </form>
+<div class="flex items-center justify-center min-h-screen">
+    <div class="max-w-md w-full bg-gray-800 p-8 rounded-lg shadow-lg mt-20">
+        <h1 class="text-3xl font-bold mb-6 text-center">Create Product</h1>
+        <!-- Form -->
+        <form th:action="@{/admin/products}" th:object="${product}" method="post" class="space-y-4">
+            <!-- Name Field -->
+            <div>
+                <label for="name" class="block text-sm font-medium">Name</label>
+                <input type="text" id="name" th:field="*{name}" required
+                       class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <!-- Price Field -->
+            <div>
+                <label for="price" class="block text-sm font-medium">Price</label>
+                <input type="number" step="0.01" id="price" th:field="*{price}" required
+                       class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <!-- Category Field -->
+            <div>
+                <label for="category" class="block text-sm font-medium">Category</label>
+                <select id="category" th:field="*{category}" required
+                        class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option th:each="category : ${T(com.example.javacafe.enums.Category).values()}"
+                            th:text="${category.name()}" th:value="${category}"></option>
+                </select>
+            </div>
+            <!-- Submit Button -->
+            <button type="submit"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300">
+                Add
+            </button>
+        </form>
+    </div>
 </div>
-
 </body>
 </html>

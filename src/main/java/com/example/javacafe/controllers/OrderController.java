@@ -64,7 +64,7 @@ public class OrderController {
         // Create an invoice
         Invoice invoice = new Invoice();
         invoice.setProducts(orderItems);
-        invoice.setTotalAmount(totalAmount);
+        invoice.setTotalAmount((long) totalAmount);
         invoice.setTimestamp(LocalDateTime.now());
         invoiceService.save(invoice);
 

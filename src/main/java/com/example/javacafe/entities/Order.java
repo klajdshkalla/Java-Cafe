@@ -17,8 +17,6 @@ public class Order {
 
     private int quantity;
 
-    private String waiterName;
-
     private LocalDateTime timestamp;
 
     @PrePersist
