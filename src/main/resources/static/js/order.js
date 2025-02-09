@@ -124,17 +124,17 @@ function updateOrderList() {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'order-item';
         itemDiv.innerHTML = `
-            <div class="flex justify-between items-center">
-                <div>
-                    ${item.name} -
-                    <span class="text-blue-400 font-semibold">${item.price.toFixed(2)} ALL</span>
-                    <span class="bg-blue-700 text-white px-2 py-1 rounded ml-2">${item.quantity}</span>
-                </div>
-                <button onclick="removeFromOrder(${index})" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded transition duration-300">
-                    Remove
-                </button>
+        <div class="flex justify-between items-center">
+            <div>
+                ${item.name} -
+                <span class="text-blue-400 font-semibold">${item.price.toFixed(2)} ALL</span>
+                <span class="bg-blue-700 text-white px-2 py-1 rounded ml-2">${item.quantity}</span>
             </div>
-        `;
+            <button onclick="removeFromOrder(${index})" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition duration-300 ml-4">
+                Remove
+            </button>
+        </div>
+    `;
         orderList.appendChild(itemDiv);
         total += item.price * item.quantity;
     });
