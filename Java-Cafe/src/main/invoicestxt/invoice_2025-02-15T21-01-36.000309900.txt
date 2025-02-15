@@ -1,0 +1,6 @@
+Invoice - 2025-02-15T21:01:36.000309900
+
+Products:
+1. Makiato - 10 x 80.00 ALL = 800.00 ALL
+
+Total Amount: 800.00 ALL

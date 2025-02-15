@@ -1,0 +1,7 @@
+Invoice - 2025-02-15T18:18:56.735418900
+
+Products:
+1. Kafe - 1 x 120.00 ALL = 120.00 ALL
+2. Makiato - 2 x 140.00 ALL = 280.00 ALL
+
+Total Amount: 400.00 ALL
