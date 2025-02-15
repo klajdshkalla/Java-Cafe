@@ -14,73 +14,100 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Fetch categories from the backend
+// Fetch categories from the backend and display them with images
 function loadCategories() {
     fetch('/api/categories')
-        .then(response => response.json())
+        .then(response => response.json()) // Add parentheses here
         .then(categories => {
             const categoryContainer = document.getElementById('categories');
             categoryContainer.innerHTML = ''; // Clear previous categories
             categories.forEach(category => {
                 const button = document.createElement('button');
-                button.className = `category-btn text-white font-semibold px-4 py-2 rounded transition duration-300 w-full h-24 flex items-center justify-center ${getCategoryColor(category)}`;
-                button.textContent = category.replace(/_/g, ' '); // Replace underscores with spaces for readability
-                button.setAttribute('data-category', category);
+                button.className = `category-btn text-white font-semibold px-4 py-2 rounded transition duration-300 w-full h-24 flex items-center justify-center ${getCategoryColor(category.name)}`;
+
+                // Category image
+                const img = document.createElement('img');
+                img.src = category.imagePath || '/images/default-category.png'; // Fallback image
+                img.alt = category.name;
+                img.className = 'h-12 w-12 mr-2 rounded';
+
+                // Category text
+                const text = document.createElement('span');
+                text.textContent = category.name.replace(/_/g, ' ');
+
+                button.appendChild(img);
+                button.appendChild(text);
+                button.setAttribute('data-category', category.name);
                 button.addEventListener('click', function () {
-                    displayProductsByCategory(category);
+                    displayProductsByCategory(category.name);
                 });
                 categoryContainer.appendChild(button);
             });
         })
-        .catch(error => console.error('Error fetching categories:', error));
+        .catch(error => {
+            console.error('Error fetching categories:', error);
+            alert("Failed to load categories. Please try again later."); // User feedback
+        });
 }
 
-// Display products based on the selected category
+// Fetch and display products for the selected category
 function displayProductsByCategory(category) {
-    // Show the product section
     const productSection = document.getElementById('productSection');
     productSection.style.display = 'block';
-
-    // Adjust the order list column span
     const orderSection = document.getElementById('orderSection');
     orderSection.classList.remove('md:col-span-2');
     orderSection.classList.add('md:col-span-1');
 
     fetch(`/api/products/category/${category}`)
-        .then(response => response.json())
-        .then(filteredProducts => {
+        .then(response => response.json()) // Add parentheses here
+        .then(products => {
             const productList = document.getElementById('productList');
             productList.innerHTML = ''; // Clear previous products
-            filteredProducts.forEach(product => {
+            products.forEach(product => {
                 const productDiv = document.createElement('div');
-                productDiv.className = 'product-item bg-gray-800 p-4 rounded-lg shadow-md';
-                productDiv.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <span class="font-bold">${product.name}</span>
-                            <span> - ALL</span>
-                            <span>${product.price.toFixed(2)}</span>
-                                                        <span> - ALL</span>
+                productDiv.className = 'product-item bg-gray-800 p-4 rounded-lg shadow-md flex items-center';
 
-                        </div>
-                        <button class="add-to-order bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition duration-300"
-                                data-product-name="${product.name}"
-                                data-product-price="${product.price}">
-                            Add
-                        </button>
-                    </div>
+                // Product image
+                const img = document.createElement('img');
+                img.src = product.imagePath || '/images/default-product.png'; // Fallback image
+                img.alt = product.name;
+                img.className = 'h-16 w-16 mr-4 rounded';
+
+                // Product details
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'flex-grow';
+                infoDiv.innerHTML = `
+                    <span class="font-bold">${product.name}</span>
+                    <span> - ALL</span>
+                    <span>${product.price.toFixed(2)}</span>
                 `;
+
+                // Add to order button
+                const addButton = document.createElement('button');
+                addButton.className = "add-to-order bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition duration-300";
+                addButton.setAttribute("data-product-name", product.name);
+                addButton.setAttribute("data-product-price", product.price);
+                addButton.textContent = "Add";
+                addButton.addEventListener('click', function () {
+                    addToOrder(product.name, product.price);
+                });
+
+                productDiv.appendChild(img);
+                productDiv.appendChild(infoDiv);
+                productDiv.appendChild(addButton);
                 productList.appendChild(productDiv);
             });
             attachAddToOrderListeners();
         })
-        .catch(error => console.error('Error fetching products by category:', error));
+        .catch(error => {
+            console.error('Error fetching products:', error);
+            alert("Failed to load products. Please try again later."); // User feedback
+        });
 }
 
 // Attach listeners to "Add to Order" buttons
 function attachAddToOrderListeners() {
-    const buttons = document.querySelectorAll('.add-to-order');
-    buttons.forEach(button => {
+    document.querySelectorAll('.add-to-order').forEach(button => {
         button.addEventListener('click', function () {
             const productName = this.getAttribute('data-product-name');
             const productPrice = parseFloat(this.getAttribute('data-product-price'));
@@ -133,11 +160,10 @@ function updateOrderList() {
     });
 
     totalAmount.textContent = total.toFixed(2);
-    // Format order items for submission
     document.getElementById('orderItems').value = JSON.stringify(orderItems);
 }
 
-// Helper function to get the color for a category
+// Helper function to get the category color
 function getCategoryColor(category) {
     const categoryColors = {
         HOT_DRINKS: 'bg-red-600 hover:bg-red-700',
@@ -145,7 +171,26 @@ function getCategoryColor(category) {
         WINES: 'bg-purple-600 hover:bg-purple-700',
         BEERS: 'bg-yellow-600 hover:bg-yellow-700',
         MILKSHAKES: 'bg-green-600 hover:bg-green-700',
-        COCKTAILS: 'bg-pink-600 hover:bg-pink-700'
+        COCKTAILS: 'bg-pink-600 hover:bg-pink-700',
+        OTHER: 'bg-gray-600 hover:bg-gray-700'
     };
-    return categoryColors[category] || 'bg-gray-600 hover:bg-gray-700'; // Default color if category is not found
+    return categoryColors[category] || 'bg-gray-600 hover:bg-gray-700';
+}
+
+function deleteProduct(productId) {
+    console.log("Deleting product with ID:", productId); // Debugging line
+    if (confirm("Are you sure you want to delete this product?")) {
+        fetch(`/admin/products/delete/${productId}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload(); // Reload the page after successful deletion
+                } else {
+                    alert("Failed to delete product.");
+                }
+            })
+            .catch(error => {
+                console.error("Error deleting product:", error);
+                alert("An error occurred while deleting the product.");
+            });
+    }
 }

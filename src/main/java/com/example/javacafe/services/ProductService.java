@@ -40,8 +40,4 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    // Find a product by name
-    public Product findByName(String name) {
-        return productRepository.findByName(name); // Call the repository method
-    }
 }

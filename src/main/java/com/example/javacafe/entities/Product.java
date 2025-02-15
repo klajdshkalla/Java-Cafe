@@ -22,5 +22,7 @@ public class Product {
     private Long price;
 
     @Enumerated(EnumType.STRING)
-    private Category category; // Add this line to include the category field
+    private Category category;
+
+    private String imagePath; // Store image path
 }
