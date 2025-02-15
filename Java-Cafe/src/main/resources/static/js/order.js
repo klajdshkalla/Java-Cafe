@@ -268,3 +268,20 @@ function decreaseQuantity(index) {
         removeFromOrder(index);
     }
 }
+
+function deleteProduct(productId) {
+    if (confirm("Are you sure you want to delete this product?")) {
+        fetch(`/admin/products/delete/${productId}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload(); // Reload the page after successful deletion
+                } else {
+                    alert("Failed to delete product.");
+                }
+            })
+            .catch(error => {
+                console.error("Error deleting product:", error);
+                alert("An error occurred while deleting the product.");
+            });
+    }
+}
