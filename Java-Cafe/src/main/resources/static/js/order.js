@@ -1,20 +1,34 @@
 let orderItems = [];
 
+// Configuration for API and image paths
+const config = {
+    apiBaseUrl: '/api',
+    imagesBaseUrl: '/images'
+};
+
+// Event listener for when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Document loaded, attaching event listeners.");
-    loadCategories(); // Load categories dynamically
-    document.getElementById('submitOrderForm').addEventListener('submit', function (event) {
-        const orderItemsJson = document.getElementById('orderItems').value;
-        if (!orderItemsJson || orderItemsJson.length === 0) {
-            alert("Cannot submit an empty order.");
-            event.preventDefault(); // Prevent form submission
-        }
-    });
+
+    // Load categories dynamically
+    loadCategories();
+
+    // Submit order form validation
+    const submitOrderForm = document.getElementById('submitOrderForm');
+    if (submitOrderForm) {
+        submitOrderForm.addEventListener('submit', function (event) {
+            const orderItemsJson = document.getElementById('orderItems')?.value;
+            if (!orderItemsJson || orderItemsJson.length === 0) {
+                alert("Cannot submit an empty order.");
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+    }
 });
 
 // Fetch categories from the backend and display them with images
 function loadCategories() {
-    fetch('/api/categories')
+    fetch(`${config.apiBaseUrl}/categories`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -24,6 +38,9 @@ function loadCategories() {
         .then(categories => {
             console.log("Fetched categories:", categories); // Debugging line
             const categoryContainer = document.getElementById('categories');
+            if (!categoryContainer) {
+                throw new Error("Category container not found in the DOM");
+            }
             categoryContainer.innerHTML = ''; // Clear previous categories
 
             if (!Array.isArray(categories)) {
@@ -31,7 +48,6 @@ function loadCategories() {
             }
 
             categories.forEach(category => {
-                // Handle both objects and strings
                 const categoryName = typeof category === 'string' ? category : category.name;
 
                 if (!categoryName) {
@@ -41,16 +57,17 @@ function loadCategories() {
 
                 const button = document.createElement('button');
                 button.className = `category-btn text-white font-semibold px-4 py-2 rounded transition duration-300 w-full h-24 flex items-center justify-center ${getCategoryColor(categoryName)}`;
+                button.setAttribute('data-category', categoryName);
 
                 // Category image
                 const img = document.createElement('img');
-                img.src = `/images/${encodeURIComponent(categoryName.toLowerCase())}.png` || '/images/default-category.png';
+                img.src = `${config.imagesBaseUrl}/${encodeURIComponent(categoryName.toLowerCase())}.png` || `${config.imagesBaseUrl}/default-category.png`;
                 img.alt = categoryName;
                 img.className = 'h-16 w-16 mr-2 rounded';
 
                 // Handle missing images gracefully
                 img.onerror = function () {
-                    this.src = '/images/default-category.png';
+                    this.src = `${config.imagesBaseUrl}/default-category.png`;
                 };
 
                 // Category text
@@ -61,8 +78,7 @@ function loadCategories() {
                 button.appendChild(img);
                 button.appendChild(text);
 
-                // Set data attribute and click event
-                button.setAttribute('data-category', categoryName);
+                // Add click event listener
                 button.addEventListener('click', function () {
                     displayProductsByCategory(categoryName);
                 });
@@ -73,19 +89,25 @@ function loadCategories() {
         })
         .catch(error => {
             console.error('Error fetching categories:', error);
-            alert("Failed to load categories. Please try again later.");
+            alert(`Failed to load categories: ${error.message}. Please try again later.`);
         });
 }
 
 // Fetch and display products for the selected category
 function displayProductsByCategory(category) {
     const productSection = document.getElementById('productSection');
-    productSection.style.display = 'block';
-    const orderSection = document.getElementById('orderSection');
-    orderSection.classList.remove('md:col-span-2');
-    orderSection.classList.add('md:col-span-1');
+    const productList = document.getElementById('productList');
 
-    fetch(`/api/products/category/${category}`)
+    // Check if required elements exist
+    if (!productSection || !productList) {
+        console.error("Required elements not found in the DOM.");
+        return;
+    }
+
+    productSection.style.display = 'block'; // Show the product section
+    productList.innerHTML = ''; // Clear previous products
+
+    fetch(`${config.apiBaseUrl}/products/category/${category}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -94,8 +116,6 @@ function displayProductsByCategory(category) {
         })
         .then(products => {
             console.log("Fetched products for category:", category, products); // Debugging line
-            const productList = document.getElementById('productList');
-            productList.innerHTML = ''; // Clear previous products
 
             if (!Array.isArray(products)) {
                 throw new Error("Invalid products response");
@@ -112,13 +132,13 @@ function displayProductsByCategory(category) {
 
                 // Product image
                 const img = document.createElement('img');
-                img.src = product.imagePath || '/images/default-product.png'; // Fallback image
+                img.src = product.imagePath || `${config.imagesBaseUrl}/default-product.png`;
                 img.alt = product.name;
                 img.className = 'h-20 w-20 mr-4 rounded';
 
                 // Handle missing images gracefully
                 img.onerror = function () {
-                    this.src = '/images/default-product.png';
+                    this.src = `${config.imagesBaseUrl}/default-product.png`;
                 };
 
                 // Product details
@@ -148,19 +168,8 @@ function displayProductsByCategory(category) {
         })
         .catch(error => {
             console.error('Error fetching products:', error);
-            alert("Failed to load products. Please try again later.");
+            alert(`Failed to load products: ${error.message}. Please try again later.`);
         });
-}
-
-// Attach listeners to "Add to Order" buttons
-function attachAddToOrderListeners() {
-    document.querySelectorAll('.add-to-order').forEach(button => {
-        button.addEventListener('click', function () {
-            const productName = this.getAttribute('data-product-name');
-            const productPrice = parseFloat(this.getAttribute('data-product-price'));
-            addToOrder(productName, productPrice);
-        });
-    });
 }
 
 // Add a product to the order list
@@ -184,6 +193,13 @@ function removeFromOrder(index) {
 function updateOrderList() {
     const orderList = document.getElementById('orderList');
     const totalAmount = document.getElementById('totalAmount');
+    const orderItemsInput = document.getElementById('orderItems');
+
+    if (!orderList || !totalAmount || !orderItemsInput) {
+        console.error("Required elements not found in the DOM.");
+        return;
+    }
+
     orderList.innerHTML = '';
     let total = 0;
 
@@ -197,29 +213,18 @@ function updateOrderList() {
                 <span class="bg-blue-700 text-white px-2 py-1 rounded ml-2">${item.quantity}</span>
             </div>
             <div class="flex space-x-2">
-                <!-- Quantity Button -->
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded transition duration-300"
-                        onclick="decreaseQuantity(${index})">-</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded" onclick="decreaseQuantity(${index})">-</button>
                 <span class="px-2">${item.quantity}</span>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded transition duration-300"
-                        onclick="increaseQuantity(${index})">+</button>
-                <!-- Remove Button -->
-                <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded transition duration-300 ml-4"
-                        onclick="removeFromOrder(${index})">Remove</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded" onclick="increaseQuantity(${index})">+</button>
+                <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded ml-4" onclick="removeFromOrder(${index})">Remove</button>
             </div>
         `;
         orderList.appendChild(itemDiv);
         total += item.price * item.quantity;
     });
 
-    // Ensure total is not 0.00 ALL when there are items
-    if (orderItems.length > 0) {
-        totalAmount.textContent = `${total.toFixed(2)} ALL`;
-    } else {
-        totalAmount.textContent = '0.00 ALL';
-    }
-
-    document.getElementById('orderItems').value = JSON.stringify(orderItems);
+    totalAmount.textContent = orderItems.length > 0 ? `${total.toFixed(2)} ALL` : '0.00 ALL';
+    orderItemsInput.value = JSON.stringify(orderItems);
 }
 
 // Functions to handle quantity changes
@@ -238,50 +243,18 @@ function decreaseQuantity(index) {
         removeFromOrder(index);
     }
 }
+
 // Helper function to get the category color
+const categoryColors = new Map([
+    ['HOT_DRINKS', 'bg-red-600 hover:bg-red-700'],
+    ['SOFT_DRINKS', 'bg-blue-600 hover:bg-blue-700'],
+    ['WINES', 'bg-purple-600 hover:bg-purple-700'],
+    ['BEERS', 'bg-yellow-600 hover:bg-yellow-700'],
+    ['MILKSHAKES', 'bg-green-600 hover:bg-green-700'],
+    ['COCKTAILS', 'bg-pink-600 hover:bg-pink-700'],
+    ['OTHER', 'bg-gray-600 hover:bg-gray-700']
+]);
+
 function getCategoryColor(category) {
-    const categoryColors = {
-        HOT_DRINKS: 'bg-red-600 hover:bg-red-700',
-        SOFT_DRINKS: 'bg-blue-600 hover:bg-blue-700',
-        WINES: 'bg-purple-600 hover:bg-purple-700',
-        BEERS: 'bg-yellow-600 hover:bg-yellow-700',
-        MILKSHAKES: 'bg-green-600 hover:bg-green-700',
-        COCKTAILS: 'bg-pink-600 hover:bg-pink-700',
-        OTHER: 'bg-gray-600 hover:bg-gray-700'
-    };
-    return categoryColors[category] || 'bg-gray-600 hover:bg-gray-700';
-}
-
-// Functions to handle quantity changes
-function increaseQuantity(index) {
-    if (orderItems[index]) {
-        orderItems[index].quantity += 1;
-        updateOrderList();
-    }
-}
-
-function decreaseQuantity(index) {
-    if (orderItems[index] && orderItems[index].quantity > 1) {
-        orderItems[index].quantity -= 1;
-        updateOrderList();
-    } else if (orderItems[index] && orderItems[index].quantity === 1) {
-        removeFromOrder(index);
-    }
-}
-
-function deleteProduct(productId) {
-    if (confirm("Are you sure you want to delete this product?")) {
-        fetch(`/admin/products/delete/${productId}`, { method: 'DELETE' })
-            .then(response => {
-                if (response.ok) {
-                    window.location.reload(); // Reload the page after successful deletion
-                } else {
-                    alert("Failed to delete product.");
-                }
-            })
-            .catch(error => {
-                console.error("Error deleting product:", error);
-                alert("An error occurred while deleting the product.");
-            });
-    }
+    return categoryColors.get(category) || 'bg-gray-600 hover:bg-gray-700';
 }

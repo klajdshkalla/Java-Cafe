@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -96,15 +98,37 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
         try {
             productService.deleteById(id);
-            redirectAttributes.addFlashAttribute("success", "Product deleted successfully");
+            return ResponseEntity.ok()
+                    .body(Map.of("message", "Product deleted successfully"));
         } catch (IllegalArgumentException e) {
             logger.error("Invalid product deletion request: ", e);
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Error deleting product: ", e);
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("message", "Failed to delete product"));
         }
-        return REDIRECT_PRODUCTS;
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        try {
+            Product product = productService.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
+
+            model.addAttribute("product", product);
+            addCategoriesToModel(model);
+
+            return "create_product"; // This will be your Thymeleaf template name
+        } catch (IllegalArgumentException e) {
+            logger.error("Error loading product for editing: ", e);
+            return REDIRECT_PRODUCTS;
+        }
     }
 
     @PostMapping

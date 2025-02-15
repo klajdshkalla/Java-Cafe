@@ -30,7 +30,14 @@ public class ApiController {
     // Endpoint to fetch products by category
     @GetMapping("/products/category/{category}")
     public List<Product> getProductsByCategory(@PathVariable String category) {
-        Category cat = Category.valueOf(category); // Convert string to enum
-        return productService.findByCategory(cat);
+        try {
+            // Convert the string to the Category enum
+            Category cat = Category.valueOf(category.toUpperCase().replace(" ", "_"));
+            // Fetch products by category from the service
+            return productService.findByCategory(cat);
+        } catch (IllegalArgumentException e) {
+            // Handle invalid category names gracefully
+            throw new RuntimeException("Invalid category: " + category);
+        }
     }
 }

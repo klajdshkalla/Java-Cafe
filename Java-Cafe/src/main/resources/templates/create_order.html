@@ -2,8 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create Order</title>
-    <!-- Include Tailwind CSS via CDN -->
+    <title>Products</title>
+    <!-- Add these meta tags -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -90,7 +92,7 @@
         </div>
     </div>
     <!-- Order List Section -->
-    <div id="orderSection" class="col-span-1 md:col-span-2">
+    <div id="orderSection" class="col-span-1 md:col-span-1">
         <h2 class="text-xl font-semibold mb-4 text-center">Order List</h2>
         <div id="orderList" class="space-y-2"></div>
         <div class="flex justify-between items-center mt-4">
