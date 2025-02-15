@@ -1,0 +1,10 @@
+Invoice - 2025-02-15T17:48:08.883481300
+
+Products:
+1. Kafe - 1 x 120.00 ALL = 120.00 ALL
+2. Makiato - 2 x 140.00 ALL = 280.00 ALL
+3. Coca Cola - 1 x 170.00 ALL = 170.00 ALL
+4. Zakapa - 1 x 1200.00 ALL = 1200.00 ALL
+5. Strawberry - 1 x 600.00 ALL = 600.00 ALL
+
+Total Amount: 2370.00 ALL
