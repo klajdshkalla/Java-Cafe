@@ -36,6 +36,18 @@
         #productSection {
             display: none;
         }
+        /* Custom Styles for Categories */
+        #categories {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the left */
+            gap: 1rem; /* Add spacing between categories */
+        }
+        .category {
+            display: flex;
+            align-items: center; /* Align image and text vertically */
+            gap: 0.5rem; /* Add spacing between image and text */
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
@@ -58,7 +70,16 @@
     <div class="col-span-1">
         <h2 class="text-xl font-semibold mb-4 text-center">Categories</h2>
         <div id="categories" class="space-y-4">
-            <!-- Categories will be dynamically loaded here -->
+            <!-- Example Categories -->
+            <div class="category">
+                <img src="path-to-hot-drinks-image.png" alt="Hot Drinks" class="category-image">
+                <span>HOT DRINKS</span>
+            </div>
+            <div class="category">
+                <img src="path-to-softdrinks-image.png" alt="Soft Drinks" class="category-image">
+                <span>SOFTDRINKS</span>
+            </div>
+            <!-- Add more categories as needed -->
         </div>
     </div>
     <!-- Products Section -->
