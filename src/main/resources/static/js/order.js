@@ -1,19 +1,15 @@
 let orderItems = [];
 
-// Configuration for API and image paths
 const config = {
     apiBaseUrl: '/api',
     imagesBaseUrl: '/images'
 };
 
-// Event listener for when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Document loaded, attaching event listeners.");
 
-    // Load categories dynamically
     loadCategories();
 
-    // Submit order form validation
     const submitOrderForm = document.getElementById('submitOrderForm');
     if (submitOrderForm) {
         submitOrderForm.addEventListener('submit', function (event) {
@@ -146,8 +142,8 @@ function displayProductsByCategory(category) {
                 infoDiv.className = 'flex-grow';
                 infoDiv.innerHTML = `
                     <span class="font-bold">${product.name}</span>
-                    <span> - ALL</span>
                     <span>${product.price.toFixed(2)}</span>
+                    <span> - ALL</span>
                 `;
 
                 // Add to order button
