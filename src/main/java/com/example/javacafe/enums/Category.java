@@ -7,5 +7,4 @@ public enum Category {
     BEERS,
     MILKSHAKES,
     COCKTAILS,
-    OTHER
 }
