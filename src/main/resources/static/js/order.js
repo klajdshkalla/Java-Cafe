@@ -16,13 +16,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const orderItemsJson = document.getElementById('orderItems')?.value;
             if (!orderItemsJson || orderItemsJson.length === 0) {
                 alert("Cannot submit an empty order.");
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
             }
         });
     }
 });
 
-// Fetch categories from the backend and display them with images
 function loadCategories() {
     fetch(`${config.apiBaseUrl}/categories`)
         .then(response => {
@@ -55,31 +54,25 @@ function loadCategories() {
                 button.className = `category-btn text-white font-semibold px-4 py-2 rounded transition duration-300 w-full h-24 flex items-center justify-center ${getCategoryColor(categoryName)}`;
                 button.setAttribute('data-category', categoryName);
 
-                // Category image
                 const img = document.createElement('img');
                 img.src = `${config.imagesBaseUrl}/${encodeURIComponent(categoryName.toLowerCase())}.png` || `${config.imagesBaseUrl}/default-category.png`;
                 img.alt = categoryName;
                 img.className = 'h-16 w-16 mr-2 rounded';
 
-                // Handle missing images gracefully
                 img.onerror = function () {
                     this.src = `${config.imagesBaseUrl}/default-category.png`;
                 };
 
-                // Category text
                 const text = document.createElement('span');
                 text.textContent = categoryName.replace(/_/g, ' ');
 
-                // Append elements to the button
                 button.appendChild(img);
                 button.appendChild(text);
 
-                // Add click event listener
                 button.addEventListener('click', function () {
                     displayProductsByCategory(categoryName);
                 });
 
-                // Add button to the container
                 categoryContainer.appendChild(button);
             });
         })
@@ -89,12 +82,10 @@ function loadCategories() {
         });
 }
 
-// Fetch and display products for the selected category
 function displayProductsByCategory(category) {
     const productSection = document.getElementById('productSection');
     const productList = document.getElementById('productList');
 
-    // Check if required elements exist
     if (!productSection || !productList) {
         console.error("Required elements not found in the DOM.");
         return;
@@ -126,18 +117,15 @@ function displayProductsByCategory(category) {
                 const productDiv = document.createElement('div');
                 productDiv.className = 'product-item bg-gray-800 p-4 rounded-lg shadow-md flex items-center';
 
-                // Product image
                 const img = document.createElement('img');
                 img.src = product.imagePath || `${config.imagesBaseUrl}/default-product.png`;
                 img.alt = product.name;
                 img.className = 'h-20 w-20 mr-4 rounded';
 
-                // Handle missing images gracefully
                 img.onerror = function () {
                     this.src = `${config.imagesBaseUrl}/default-product.png`;
                 };
 
-                // Product details
                 const infoDiv = document.createElement('div');
                 infoDiv.className = 'flex-grow';
                 infoDiv.innerHTML = `
@@ -146,7 +134,6 @@ function displayProductsByCategory(category) {
                     <span> - ALL</span>
                 `;
 
-                // Add to order button
                 const addButton = document.createElement('button');
                 addButton.className = "add-to-order bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded transition duration-300";
                 addButton.setAttribute("data-product-name", product.name);
@@ -168,7 +155,6 @@ function displayProductsByCategory(category) {
         });
 }
 
-// Add a product to the order list
 function addToOrder(name, price) {
     const existingItem = orderItems.find(item => item.name === name);
     if (existingItem) {
@@ -179,13 +165,11 @@ function addToOrder(name, price) {
     updateOrderList();
 }
 
-// Remove a product from the order list
 function removeFromOrder(index) {
     orderItems.splice(index, 1);
     updateOrderList();
 }
 
-// Update the order list UI
 function updateOrderList() {
     const orderList = document.getElementById('orderList');
     const totalAmount = document.getElementById('totalAmount');
@@ -223,7 +207,6 @@ function updateOrderList() {
     orderItemsInput.value = JSON.stringify(orderItems);
 }
 
-// Functions to handle quantity changes
 function increaseQuantity(index) {
     if (orderItems[index]) {
         orderItems[index].quantity += 1;
@@ -240,7 +223,6 @@ function decreaseQuantity(index) {
     }
 }
 
-// Helper function to get the category color
 const categoryColors = new Map([
     ['HOT_DRINKS', 'bg-red-600 hover:bg-red-700'],
     ['SOFT_DRINKS', 'bg-blue-600 hover:bg-blue-700'],

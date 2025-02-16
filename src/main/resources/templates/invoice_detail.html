@@ -6,35 +6,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: #1f2937; /* Dark background */
-            color: #f1f1f1; /* Light text */
-        }
-        .nav-link {
+            background-color: #1f2937;
             color: #f1f1f1;
-        }
-        .nav-link:hover {
-            color: #ddd;
         }
     </style>
 </head>
 <body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
-<!-- Navbar -->
+
 <nav class="w-full bg-gray-800 p-4 fixed top-0 z-10">
     <div class="container mx-auto flex justify-between items-center">
-        <!-- Left Side -->
         <a href="#" class="text-xl font-bold">JavaCafe</a>
-        <!-- Centered Title -->
         <h1 class="text-lg font-semibold text-white">Invoice Detail</h1>
-        <!-- Right Side -->
         <ul class="flex space-x-4">
             <li><a href="/waiter/dashboard" class="hover:text-gray-300">Home</a></li>
         </ul>
     </div>
 </nav>
 
-<!-- Centered Content -->
 <div class="max-w-4xl w-full bg-gray-800 p-10 rounded-lg shadow-lg mt-20 mb-6">
-    <!-- Invoice ID and Timestamp Row -->
     <div class="mb-6 flex items-center">
         <div class="flex-none">
             <strong class="text-gray-300 text-lg">Invoice ID:</strong>
@@ -46,7 +35,6 @@
         </div>
     </div>
 
-    <!-- Products Section -->
     <div class="mb-8">
         <table class="w-full text-left">
             <thead>
@@ -66,7 +54,6 @@
         </table>
     </div>
 
-    <!-- Total Amount -->
     <div class="flex justify-end">
         <div class="bg-green-600 text-white font-bold px-6 py-3 rounded text-lg">
             Total: <span th:text="${invoice.totalAmount} + ' ALL'" class="ml-2"></span>
@@ -74,7 +61,6 @@
     </div>
 </div>
 
-<!-- Back Button Outside Card -->
 <a href="/orders/new" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded transition duration-300 text-lg">
     Back to Orders
 </a>

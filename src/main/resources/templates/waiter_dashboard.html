@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Waiter Dashboard</title>
-    <!-- Include Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: #1f2937; /* Dark background */
-            color: #f1f1f1; /* Light text */
-        }
-        .nav-link {
+            background-color: #1f2937;
             color: #f1f1f1;
         }
-        .nav-link:hover {
-            color: #ddd;
-        }
+
     </style>
 </head>
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
-<!-- Navbar -->
 <nav class="w-full bg-gray-800 p-4 fixed top-0 z-10">
     <div class="container mx-auto flex justify-between items-center">
         <a href="#" class="text-xl font-bold">JavaCafe</a>
@@ -29,12 +22,9 @@
     </div>
 </nav>
 
-<!-- Main Content -->
 <div class="flex flex-col items-center justify-center min-h-screen transform scale-125">
     <h1 class="text-5xl font-bold mb-8 text-center">Waiter Dashboard</h1>
-    <!-- Card Container -->
     <div class="space-y-8 w-full max-w-lg">
-        <!-- Create Order Card -->
         <a href="/orders/new"
            class="bg-green-600 p-8 rounded-lg shadow-lg block hover:bg-green-700 transition duration-300 w-full text-center cursor-pointer">
             <h5 class="text-2xl font-semibold mb-4">Create Order</h5>

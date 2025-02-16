@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Document loaded, attaching event listeners.");
 
-    // Log all delete buttons and their IDs for debugging
     const deleteButtons = document.querySelectorAll('.delete-btn');
     console.log("Found delete buttons:", deleteButtons.length);
     deleteButtons.forEach(btn => {
@@ -51,7 +50,6 @@ function deleteProduct(productId) {
         headers[csrfHeader] = csrfToken;
     }
 
-    // Log the full request URL for debugging
     const url = `/admin/products/delete/${productId}`;
     console.log("Making delete request to:", url);
 

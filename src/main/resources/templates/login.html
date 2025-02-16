@@ -3,23 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <!-- Include Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: #343a40; /* Dark background color */
-            color: #f1f1f1; /* Light text color */
-        }
-        .nav-link {
+            background-color: #343a40;
             color: #f1f1f1;
-        }
-        .nav-link:hover {
-            color: #ddd;
         }
     </style>
 </head>
 <body class="bg-gray-800 text-white flex items-center justify-center min-h-screen">
-<!-- Navbar -->
 <nav class="w-full bg-gray-900 p-4 fixed top-0 z-10">
     <div class="container mx-auto flex justify-between items-center">
         <a href="#" class="text-xl font-bold">JavaCafe</a>
@@ -29,24 +21,20 @@
     </div>
 </nav>
 
-<!-- Main Content -->
 <div class="flex items-center justify-center min-h-screen">
     <div class="max-w-lg w-full bg-gray-700 p-8 rounded-lg shadow-lg transform scale-125">
         <h2 class="text-3xl font-bold mb-6 text-center">Login</h2>
         <form th:action="@{/login}" method="post" class="space-y-6">
-            <!-- Username Field -->
             <div>
                 <label for="username" class="block text-lg font-medium">Username</label>
                 <input type="text" id="username" name="username" required
                        class="mt-1 block w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            <!-- Password Field -->
             <div>
                 <label for="password" class="block text-lg font-medium">Password</label>
                 <input type="password" id="password" name="password" required
                        class="mt-1 block w-full px-4 py-3 bg-gray-600 border border-gray-500 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            <!-- Submit Button -->
             <button type="submit"
                     class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-md transition duration-300 text-lg">
                 Login

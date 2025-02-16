@@ -19,7 +19,6 @@ public class ApiController {
     @Autowired
     private ProductService productService;
 
-    // Endpoint to fetch all categories
     @GetMapping("/categories")
     public List<String> getAllCategories() {
         return Arrays.stream(Category.values())
@@ -27,16 +26,12 @@ public class ApiController {
                 .toList();
     }
 
-    // Endpoint to fetch products by category
     @GetMapping("/products/category/{category}")
     public List<Product> getProductsByCategory(@PathVariable String category) {
         try {
-            // Convert the string to the Category enum
             Category cat = Category.valueOf(category.toUpperCase().replace(" ", "_"));
-            // Fetch products by category from the service
             return productService.findByCategory(cat);
         } catch (IllegalArgumentException e) {
-            // Handle invalid category names gracefully
             throw new RuntimeException("Invalid category: " + category);
         }
     }

@@ -29,7 +29,6 @@ public class OrderController {
 
     @GetMapping("/new")
     public String showCreateOrderForm(Model model) {
-        // Optionally, add any necessary data to the model (e.g., categories)
         return "create_order";
     }
 
@@ -41,18 +40,18 @@ public class OrderController {
             return "create_order";
         }
 
-        double totalAmount = 0.0; // Use double for precision
+        double totalAmount = 0.0;
         for (OrderItem orderItem : orderItems) {
             totalAmount += orderItem.getPrice() * orderItem.getQuantity();
         }
 
         Invoice invoice = new Invoice();
         invoice.setProducts(orderItems);
-        invoice.setTotalAmount(totalAmount); // No casting needed
+        invoice.setTotalAmount(totalAmount);
         invoice.setTimestamp(LocalDateTime.now());
         invoiceService.save(invoice);
 
-        saveInvoiceAsTxtInBackground(invoice); // Call the async method
+        saveInvoiceAsTxtInBackground(invoice);
 
         return "redirect:/invoices/view/" + invoice.getId();
     }
@@ -84,8 +83,8 @@ public class OrderController {
                         i + 1,
                         item.getName(),
                         item.getQuantity(),
-                        item.getPrice(), // No casting needed
-                        item.getPrice() * item.getQuantity())); // No casting needed
+                        item.getPrice(),
+                        item.getPrice() * item.getQuantity()));
             }
             writer.write("\nTotal Amount: %.2f ALL\n".formatted(invoice.getTotalAmount()));
         } catch (IOException e) {
