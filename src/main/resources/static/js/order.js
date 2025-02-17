@@ -51,7 +51,7 @@ function loadCategories() {
                 }
 
                 const button = document.createElement('button');
-                button.className = `category-btn text-white font-semibold px-4 py-2 rounded transition duration-300 w-full h-24 flex items-center justify-center ${getCategoryColor(categoryName)}`;
+                button.className = `category-btn text-white font-semibold px-4 py-2 rounded transition duration-300 w-full h-24 flex items-center justify-start ${getCategoryColor(categoryName)}`;
                 button.setAttribute('data-category', categoryName);
 
                 const img = document.createElement('img');
