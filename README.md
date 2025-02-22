@@ -1,4 +1,4 @@
-# Bar Management POS System
+# Bar Management POS System - JAVA CAFE
 
 A simple yet efficient Point of Sale (POS) system for managing bar operations, built using Java Spring, HTML, CSS, and JavaScript.
 
