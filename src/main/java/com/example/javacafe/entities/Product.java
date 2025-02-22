@@ -24,5 +24,5 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    private String imagePath; // Store image path
+    private String imagePath;
 }

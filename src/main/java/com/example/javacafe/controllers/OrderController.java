@@ -68,7 +68,7 @@ public class OrderController {
 
     @Async
     public void saveInvoiceAsTxtInBackground(Invoice invoice) {
-        String directoryPath = "C:\\kshjava\\Java-Cafe\\src\\main\\invoicestxt";
+        String directoryPath = "C:\\kshjava\\Java-Cafeok\\src\\main\\invoicestxt";
         String fileName = format("invoice_%s.txt", invoice.getTimestamp().toString().replace(':', '-'));
         String filePath = directoryPath + "\\" + fileName;
 

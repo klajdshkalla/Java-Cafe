@@ -22,7 +22,7 @@ public class ApiController {
     @GetMapping("/categories")
     public List<String> getAllCategories() {
         return Arrays.stream(Category.values())
-                .map(Enum::name) // Convert enum values to their string representation
+                .map(Enum::name)
                 .toList();
     }
 
