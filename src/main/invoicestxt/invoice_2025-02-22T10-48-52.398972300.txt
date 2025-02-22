@@ -1,0 +1,6 @@
+Invoice - 2025-02-22T10:48:52.398972300
+
+Products:
+1. Coca Cola - 2 x 190.00 ALL = 380.00 ALL
+
+Total Amount: 380.00 ALL
